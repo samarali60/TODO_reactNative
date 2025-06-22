@@ -44,25 +44,40 @@ const Home = () => {
     await saveTodo(newTodos);
     console.log("Todo Deleted:", id);
   };
+  const handelCompleteTask = async (id) => {
+    const newTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(newTodos);
+    await saveTodo(newTodos);
+    if (newTodos.find((todo) => todo.id === id).completed)
+      alert("Todo Completed");
+    console.log("Todo Completed:", id);
+  };
   return (
     <View style={styles.container}>
       <Text style={{ ...styles.text, marginTop: 20, fontWeight: "bold" }}>
-        TODO APP
+        Add Todo
       </Text>
       <TodoForm onSubmit={handelAddTOdo} />
 
       <View style={{ ...styles.dividerLine, marginTop: 15 }} />
       <Filter activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-      <ScrollView
-        style={{ width: "100%" }}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={{ marginTop: 15 }}>
-          {todos.length > 0 && (
-            <TodoList todos={filteredTodos} onDelete={handelDeleteTodo} />
-          )}
-        </View>
-      </ScrollView>
+      <View style={{ flex: 1, width: "100%", marginTop: 15 }}>
+        {filteredTodos.length > 0 ? (
+          <TodoList
+            todos={filteredTodos}
+            onDelete={handelDeleteTodo}
+            onComplete={handelCompleteTask}
+          />
+        ) : (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Text style={{ color: "gray", fontSize: 18 }}>No Todos Found</Text>
+          </View>
+        )}
+      </View>
     </View>
   );
 };

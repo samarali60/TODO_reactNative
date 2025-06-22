@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
+    paddingVertical: 20,
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
@@ -19,10 +20,10 @@ export const styles = StyleSheet.create({
   },
   submitBtn: {
     width: "50%",
-    backgroundColor: "#000",
+    backgroundColor: "#072",
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    padding: 10,
     borderRadius: 10,
   },
   text: {

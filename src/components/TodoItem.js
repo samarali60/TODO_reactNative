@@ -1,23 +1,54 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text ,TouchableOpacity } from "react-native";
 import { styles } from "../../styles";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
-
-const TodoItem = ({ item, onDelete }) => {
+import { useNavigation } from "@react-navigation/native";
+import { PATH } from '../routes/BottomTabsNavigator';
+const TodoItem = ({ item, onDelete, onComplete }) => {
+const {navigate} = useNavigation();
   return (
-    <View style={styles.todosContainer}>
-      <View>
-        <Text style={styles.text}>{item.title}</Text>
-        <Text style={{ color: "gray" }}>{item.description}</Text>
+    <TouchableOpacity onPress= { () => navigate(PATH.DETAILS  , {todo : item}) }
+>
+      <View style={styles.todosContainer}>
+        <View>
+          <Text
+            style={[
+              styles.text,
+              item.completed && { textDecorationLine: "line-through" },
+            ]}
+          >
+            {item.title}
+          </Text>
+          <Text style={{ color: "gray" }}>{item.description}</Text>
+        </View>
+        <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+          <Feather name="edit" size={20} color="blue" />
+
+          <Feather
+            name="trash"
+            size={20}
+            color="red"
+            onPress={() => onDelete(item.id)}
+          />
+
+          {item.completed ? (
+            <AntDesign
+              name="checkcircle"
+              size={20}
+              color="green"
+              onPress={() => onComplete(item.id)}
+            />
+          ) : (
+            <AntDesign
+              name="checkcircleo"
+              size={20}
+              color="green"
+              onPress={() => onComplete(item.id)}
+            />
+          )}
+        </View>
       </View>
-      <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
-        <Feather name="edit" size={20} color="blue" />
-        <TouchableOpacity onPress={() => onDelete(item.id)}>
-          <Feather name="trash" size={20} color="red" />
-        </TouchableOpacity>
-        {/* <AntDesign name="checkcircleo" size={20} color="green" /> */}
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
