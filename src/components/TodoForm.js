@@ -1,10 +1,12 @@
 import { Text, TouchableOpacity,TextInput } from "react-native";
 import { styles } from "../../styles";
 import { useState } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const TodoForm = ({ onSubmit }) => {
+import { useDispatch } from "react-redux";
+import { addTodo } from "../redux/slices/TodoSlice";
+const TodoForm = () => {
   const [todoTitle, setTodoTitle] = useState("");
   const [todoDescription, setTodoDescription] = useState("");
+  const dispatch = useDispatch();
   const handleSubmit = () => {
       if (todoTitle.trim() && todoDescription.trim()) {
         console.log("Todo Added:", {
@@ -17,7 +19,9 @@ const TodoForm = ({ onSubmit }) => {
           description: todoDescription,
           completed: false,
         };
-        onSubmit(todo);
+        
+        // Dispatch the addTodo action with the new todo
+        dispatch(addTodo(todo));
         // Reset the form fields
         setTodoTitle("");
         setTodoDescription("");
